@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mark the jaw — FaceGen</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="photos" aria-label="Photos">
+    <header class="side-head">
+      <h1 id="project-name">Photos</h1>
+      <p class="sub" id="progress"></p>
+    </header>
+    <ol id="photo-list" class="photo-list"></ol>
+  </aside>
+
+  <main class="stage" id="stage">
+    <canvas id="canvas" tabindex="0" aria-label="Photo. Click to place points."></canvas>
+    <div class="zoom" aria-label="View">
+      <button id="fit" title="Fit photo (F)">Fit</button>
+      <button id="zoom-out" title="Zoom out (-)">−</button>
+      <button id="zoom-in" title="Zoom in (+)">+</button>
+    </div>
+  </main>
+
+  <aside class="tools" aria-label="Tools">
+    <section>
+      <h2>Draw</h2>
+      <div class="tool-group" role="radiogroup" aria-label="Tool">
+        <button class="tool" data-tool="jaw" role="radio"><span class="swatch jaw"></span>Jaw line<kbd>J</kbd></button>
+        <button class="tool" data-tool="anchor" role="radio"><span class="swatch anchor"></span>Anchors<kbd>A</kbd></button>
+        <button class="tool" data-tool="beard" role="radio"><span class="swatch beard"></span>Beard outline<kbd>B</kbd></button>
+        <button class="tool" data-tool="hairline" role="radio"><span class="swatch hair"></span>Hairline<kbd>H</kbd></button>
+        <button class="tool" data-tool="erase" role="radio"><span class="swatch erase"></span>Erase<kbd>E</kbd></button>
+      </div>
+      <div id="anchor-picker" class="anchor-picker" hidden></div>
+    </section>
+
+    <section class="guide" aria-live="polite">
+      <h2>How to draw it</h2>
+      <div id="guide"></div>
+    </section>
+
+    <section>
+      <h2>Show</h2>
+      <label class="check"><input type="checkbox" id="show-landmarks" checked> Detected landmarks</label>
+      <label class="check"><input type="checkbox" id="show-fit"> Current 3D jaw</label>
+    </section>
+
+    <section class="keys">
+      <h2>Keys</h2>
+      <dl>
+        <dt>Double-click / Enter</dt><dd>finish the line</dd>
+        <dt>Esc</dt><dd>drop the unfinished line</dd>
+        <dt>Ctrl+Z</dt><dd>undo</dd>
+        <dt>Space + drag, right-drag</dt><dd>move the photo</dd>
+        <dt>Wheel</dt><dd>zoom</dd>
+        <dt>← →</dt><dd>previous / next photo</dd>
+      </dl>
+    </section>
+  </aside>
+
+  <footer class="status">
+    <span id="hint"></span>
+    <span id="save-state" class="save-state"></span>
+  </footer>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

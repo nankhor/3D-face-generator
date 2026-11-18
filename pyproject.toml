@@ -1,0 +1,35 @@
+[project]
+name = "facegen"
+version = "0.1.0"
+description = "Build PES 2021 / Football Life faces from photos, driven by Claude over MCP"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "opencv-python-headless>=4.9",
+    "pillow>=11.2",
+    "mediapipe>=0.10.14",
+    "mcp>=2.0,<3",
+]
+
+[project.optional-dependencies]
+heic = ["pillow-heif>=0.16"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+facegen = "facegen.cli:main"
+facegen-mcp = "facegen.server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["facegen*"]
+
+[tool.setuptools.package-data]
+facegen = ["data/*", "line_editor/static/*", "blender/*.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
