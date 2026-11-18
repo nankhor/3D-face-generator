@@ -12,6 +12,8 @@ from .mesh import Mesh, largest_component, read_obj
 
 
 def find_meshroom(configured: str | None) -> Path | None:
+    import os
+
     candidates = []
     if configured:
         candidates.append(Path(configured))
@@ -19,6 +21,15 @@ def find_meshroom(configured: str | None) -> Path | None:
         found = shutil.which(name)
         if found:
             candidates.append(Path(found))
+    # the Windows release is a zip people extract into Program Files (any version)
+    for env in ("ProgramFiles", "ProgramFiles(x86)", "ProgramW6432"):
+        root = os.environ.get(env)
+        if root and Path(root).is_dir():
+            for d in sorted(Path(root).glob("Meshroom*"), reverse=True):
+                candidates.append(d / "meshroom_batch.exe")
+    home_tools = Path.home() / "FaceGen" / "tools"
+    if home_tools.is_dir():
+        candidates.extend(sorted(home_tools.rglob("meshroom_batch.exe"), reverse=True))
     for c in candidates:
         if c.is_file():
             return c
